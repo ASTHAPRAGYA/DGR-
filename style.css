@@ -1033,24 +1033,57 @@ footer {
 
 }
 /* =========================================================
-   HORIZONTAL SCROLLABLE CHARTS
+   SCROLLABLE CHARTS
 ========================================================= */
 
-.scroll-chart-container {
+/*
+   Keep the chart card at its original size.
+   Only the content inside the chart can scroll.
+*/
+
+.chart-container,
+.large-chart-container,
+.timeline-wrapper {
+    position: relative;
     width: 100%;
+    overflow: hidden;
+}
+
+
+/*
+   Horizontal scrolling viewport.
+
+   The viewport occupies exactly the same
+   space as the original chart.
+*/
+
+.scroll-chart-container {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
     overflow-x: auto;
     overflow-y: hidden;
-    position: relative;
+
+    box-sizing: border-box;
+
+    padding-bottom: 4px;
+
     scrollbar-width: thin;
     scrollbar-color: #b9cacc transparent;
 }
 
+
+/* Chrome / Edge / Safari */
+
 .scroll-chart-container::-webkit-scrollbar {
-    height: 7px;
+    height: 8px;
 }
 
 .scroll-chart-container::-webkit-scrollbar-track {
-    background: transparent;
+    background: #eef3f4;
+    border-radius: 10px;
 }
 
 .scroll-chart-container::-webkit-scrollbar-thumb {
@@ -1064,26 +1097,31 @@ footer {
 
 
 /*
-   The chart canvas becomes wider than the visible
-   card when there are many dates.
+   IMPORTANT:
+   The canvas must NOT shrink to the card width.
 
-   The user slides horizontally instead of the
-   card expanding.
+   app.js sets the actual width.
 */
 
 .scroll-chart-canvas {
     display: block !important;
+
     max-width: none !important;
-    width: auto !important;
+
+    min-width: 0 !important;
+
+    height: 100% !important;
 }
 
 
 /*
-   Keep the existing card dimensions.
+   Prevent Chart.js canvases outside the
+   scroll wrapper from creating horizontal
+   page overflow.
 */
 
-.chart-container,
-.large-chart-container,
-.timeline-wrapper {
-    overflow: hidden;
+.chart-container > canvas,
+.large-chart-container > canvas,
+.timeline-wrapper > canvas {
+    max-width: 100%;
 }
