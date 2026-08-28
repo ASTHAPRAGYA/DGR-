@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Solar DGR Analytics</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         CHART.JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js">
+    </script>
+
+
+    <!-- =====================================================
+         SHEETJS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+    </script>
+
+
+    <!-- =====================================================
+         STYLESHEET
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            S
+        </div>
+
+        <div>
+
+            <div class="brand-name">
+                Solar Analytics
+            </div>
+
+            <div class="brand-subtitle">
+                DGR Monitoring
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav class="navigation">
+
+        <button
+            class="nav-item active"
+            data-target="dashboardSection"
+            type="button"
+        >
+
+            <span class="nav-icon">
+                ▦
+            </span>
+
+            Dashboard
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-target="paSection"
+            type="button"
+        >
+
+            <span class="nav-icon">
+                ◷
+            </span>
+
+            PA Analysis
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-target="performanceSection"
+            type="button"
+        >
+
+            <span class="nav-icon">
+                ⌁
+            </span>
+
+            Performance
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-target="curtailmentSection"
+            type="button"
+        >
+
+            <span class="nav-icon">
+                ↘
+            </span>
+
+            Curtailment
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-target="energySection"
+            type="button"
+        >
+
+            <span class="nav-icon">
+                ▥
+            </span>
+
+            Energy
+
+        </button>
+
+    </nav>
+
+
+    <!-- =====================================================
+         DATA SOURCE
+    ====================================================== -->
+
+    <div class="sidebar-bottom">
+
+        <div class="sidebar-label">
+            DATA SOURCE
+        </div>
+
+        <strong id="sidebarFileName">
+            No DGR uploaded
+        </strong>
+
+        <span>
+            Only selected DGR worksheets are analysed.
+        </span>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="main-content">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="top-header">
+
+        <div>
+
+            <div class="eyebrow">
+                DAILY GENERATION REPORT
+            </div>
+
+            <h1>
+                Solar Plant Analytics
+            </h1>
+
+            <p id="statusText">
+                Upload a DGR to generate the analytics.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             SINGLE UPLOAD BUTTON
+        ================================================== -->
+
+        <div class="header-actions">
+
+            <label
+                for="dgrFile"
+                class="upload-button"
+            >
+
+                <span>
+                    ↑
+                </span>
+
+                Upload DGR
+
+            </label>
+
+
+            <input
+                type="file"
+                id="dgrFile"
+                accept=".xlsx,.xls,.csv"
+                hidden
+            >
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         FILE INFORMATION
+    ====================================================== -->
+
+    <section
+        id="fileUploadStatus"
+        class="upload-panel"
+    >
+
+        <div
+            id="fileInfo"
+            class="file-info hidden"
+        >
+
+            <div class="file-details">
+
+                <div class="file-icon">
+                    XLS
+                </div>
+
+                <div>
+
+                    <strong id="fileName">
+                        —
+                    </strong>
+
+                    <span id="fileSheets">
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="removeFile"
+                class="remove-button"
+                type="button"
+            >
+                Remove
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             WORKBOOK STATUS
+        ================================================== -->
+
+        <div
+            id="workbookStatus"
+            class="workbook-status hidden"
+        >
+
+            <div class="status-title">
+                DGR worksheets detected
+            </div>
+
+            <div
+                id="sheetBadges"
+                class="sheet-badges"
+            >
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         DASHBOARD
+    ====================================================== -->
+
+    <section
+        id="dashboardSection"
+        class="dashboard-section"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <div class="eyebrow">
+                    OVERVIEW
+                </div>
+
+                <h2>
+                    Plant Performance
+                </h2>
+
+            </div>
+
+            <div class="data-badge">
+                DGR LIVE DATA
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             KPI CARDS
+        ================================================== -->
+
+        <div class="kpi-grid">
+
+
+            <!-- PA -->
+
+            <div class="kpi-card">
+
+                <div class="kpi-top">
+
+                    <span>
+                        PLANT AVAILABILITY
+                    </span>
+
+                    <div class="kpi-symbol">
+                        PA
+                    </div>
+
+                </div>
+
+                <strong id="dashboardPA">
+                    —
+                </strong>
+
+                <small>
+                    Daily_KPI — Column S
+                </small>
+
+            </div>
+
+
+            <!-- PR -->
+
+            <div class="kpi-card">
+
+                <div class="kpi-top">
+
+                    <span>
+                        PERFORMANCE RATIO
+                    </span>
+
+                    <div class="kpi-symbol">
+                        PR
+                    </div>
+
+                </div>
+
+                <strong id="dashboardPR">
+                    —
+                </strong>
+
+                <small>
+                    Daily_KPI — Column V
+                </small>
+
+            </div>
+
+
+            <!-- SYSTEM LOSS -->
+
+            <div class="kpi-card">
+
+                <div class="kpi-top">
+
+                    <span>
+                        SYSTEM LOSSES
+                    </span>
+
+                    <div class="kpi-symbol">
+                        %
+                    </div>
+
+                </div>
+
+                <strong id="dashboardLoss">
+                    —
+                </strong>
+
+                <small>
+                    Daily_KPI — Column AD
+                </small>
+
+            </div>
+
+
+            <!-- OPERATING HOURS -->
+
+            <div class="kpi-card">
+
+                <div class="kpi-top">
+
+                    <span>
+                        OPERATING HOURS
+                    </span>
+
+                    <div class="kpi-symbol">
+                        H
+                    </div>
+
+                </div>
+
+                <strong id="dashboardHours">
+                    —
+                </strong>
+
+                <small>
+                    Daily_KPI — Column I
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DASHBOARD CHARTS
+        ================================================== -->
+
+        <div class="dashboard-chart-grid">
+
+
+            <!-- PR -->
+
+            <div class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            Performance Ratio
+                        </h3>
+
+                        <span>
+                            Daily_KPI · Column V
+                        </span>
+
+                    </div>
+
+                    <span class="chart-type">
+                        SCATTER
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas
+                        id="dashboardPRChart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- SYSTEM LOSS -->
+
+            <div class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            System Losses
+                        </h3>
+
+                        <span>
+                            Daily_KPI · Column AD
+                        </span>
+
+                    </div>
+
+                    <span class="chart-type">
+                        LINE
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas
+                        id="dashboardLossChart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PA ANALYSIS
+    ====================================================== -->
+
+    <section
+        id="paSection"
+        class="dashboard-section"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <div class="eyebrow">
+                    AVAILABILITY
+                </div>
+
+                <h2>
+                    Plant Availability
+                </h2>
+
+                <p>
+                    Plant availability and equipment
+                    unavailability analysis from the PA
+                    worksheet.
+                </p>
+
+            </div>
+
+            <div class="data-badge">
+                PA WORKSHEET
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PLANT UNAVAILABILITY GANTT
+        ================================================== -->
+
+        <div class="chart-card full-card">
+
+            <div class="chart-heading">
+
+                <div>
+
+                    <h3>
+                        Plant Unavailability
+                    </h3>
+
+                    <span>
+                        Fault intervals from PA · W / Z / AC
+                    </span>
+
+                </div>
+
+                <span class="chart-type">
+                    GANTT
+                </span>
+
+            </div>
+
+
+            <div class="timeline-wrapper">
+
+                <canvas id="paChart">
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PERFORMANCE
+    ====================================================== -->
+
+    <section
+        id="performanceSection"
+        class="dashboard-section"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <div class="eyebrow">
+                    DAILY KPI
+                </div>
+
+                <h2>
+                    Performance Analysis
+                </h2>
+
+                <p>
+                    Daily PR, operating hours and system loss
+                    trends.
+                </p>
+
+            </div>
+
+            <div class="data-badge">
+                DAILY_KPI
+            </div>
+
+        </div>
+
+
+        <div class="three-chart-grid">
+
+
+            <!-- PR -->
+
+            <div class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            Performance Ratio
+                        </h3>
+
+                        <span>
+                            Column V
+                        </span>
+
+                    </div>
+
+                    <span class="chart-type">
+                        SCATTER
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="prChart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- OPERATING HOURS -->
+
+            <div class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            Operating Hours
+                        </h3>
+
+                        <span>
+                            Column I
+                        </span>
+
+                    </div>
+
+                    <span class="chart-type">
+                        LINE
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="hoursChart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- SYSTEM LOSS -->
+
+            <div class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            System Losses
+                        </h3>
+
+                        <span>
+                            Column AD
+                        </span>
+
+                    </div>
+
+                    <span class="chart-type">
+                        LINE
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="lossChart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CURTAILMENT
+    ====================================================== -->
+
+    <section
+        id="curtailmentSection"
+        class="dashboard-section"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <div class="eyebrow">
+                    GRID CURTAILMENT
+                </div>
+
+                <h2>
+                    Curtailment Records
+                </h2>
+
+                <p>
+                    Daily curtailment loss and time-duration
+                    analysis from the Curtailment records
+                    worksheet.
+                </p>
+
+            </div>
+
+            <div class="data-badge">
+                CURTAILMENT RECORDS
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CURTAILMENT LOSS SUMMARY / CHART
+        ================================================== -->
+
+        <div class="chart-card full-card">
+
+            <div class="chart-heading">
+
+                <div>
+
+                    <h3>
+                        Curtailment Loss
+                    </h3>
+
+                    <span id="curtailmentSummary">
+                        Waiting for DGR data
+                    </span>
+
+                </div>
+
+                <span class="chart-type">
+                    LOSS
+                </span>
+
+            </div>
+
+
+            <div class="large-chart-container">
+
+                <canvas id="curtailmentChart">
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ENERGY
+    ====================================================== -->
+
+    <section
+        id="energySection"
+        class="dashboard-section"
+    >
+
+        <div class="section-heading">
+
+            <div>
+
+                <div class="eyebrow">
+                    ANNUAL KPI
+                </div>
+
+                <h2>
+                    Budgeted vs Measured Energy
+                </h2>
+
+                <p>
+                    Budgeted Energy from E10:E21 and
+                    Measured Energy from F10:F21.
+                </p>
+
+            </div>
+
+            <div class="data-badge">
+                ANNUAL_KPI
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ENERGY SUMMARY
+        ================================================== -->
+
+        <div class="energy-summary">
+
+
+            <div>
+
+                <span>
+                    TOTAL BUDGETED
+                </span>
+
+                <strong id="totalBudget">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    TOTAL MEASURED
+                </span>
+
+                <strong id="totalMeasured">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    VARIANCE
+                </span>
+
+                <strong id="energyVariance">
+                    —
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             ENERGY CHART
+        ================================================== -->
+
+        <div class="chart-card full-card">
+
+            <div class="chart-heading">
+
+                <div>
+
+                    <h3>
+                        Monthly Budgeted vs Measured Energy
+                    </h3>
+
+                    <span>
+                        Annual_KPI · E10:E21 vs F10:F21
+                    </span>
+
+                </div>
+
+                <span class="chart-type">
+                    DOUBLE BAR
+                </span>
+
+            </div>
+
+
+            <div class="large-chart-container">
+
+                <canvas id="energyChart">
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         EMPTY STATE
+    ====================================================== -->
+
+    <div
+        id="emptyState"
+        class="empty-state"
+    >
+
+        <div class="empty-icon">
+            ↑
+        </div>
+
+        <h2>
+            Upload a DGR to begin
+        </h2>
+
+        <p>
+            Use the Upload DGR button above to load your
+            Daily Generation Report. The dashboard will
+            analyse only Dashboard, Annual_KPI, Daily_KPI,
+            PA and Curtailment records.
+        </p>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <span>
+            Solar DGR Analytics
+        </span>
+
+        <span>
+            Interactive Generation Loss Monitoring
+        </span>
+
+    </footer>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="app.js"></script>
+
+
+</body>
+
+</html>
