@@ -12,7 +12,6 @@
 
     <title>Solar DGR Analytics</title>
 
-
     <!-- =====================================================
          GOOGLE FONT
     ====================================================== -->
@@ -94,92 +93,54 @@
     </div>
 
 
-    <!-- =====================================================
-         NAVIGATION
-    ====================================================== -->
-
     <nav class="navigation">
 
         <button
             class="nav-item active"
             data-target="dashboardSection"
-            type="button"
         >
-
-            <span class="nav-icon">
-                ▦
-            </span>
-
+            <span class="nav-icon">▦</span>
             Dashboard
-
         </button>
 
 
         <button
             class="nav-item"
             data-target="paSection"
-            type="button"
         >
-
-            <span class="nav-icon">
-                ◷
-            </span>
-
+            <span class="nav-icon">◷</span>
             PA Analysis
-
         </button>
 
 
         <button
             class="nav-item"
             data-target="performanceSection"
-            type="button"
         >
-
-            <span class="nav-icon">
-                ⌁
-            </span>
-
+            <span class="nav-icon">⌁</span>
             Performance
-
         </button>
 
 
         <button
             class="nav-item"
             data-target="curtailmentSection"
-            type="button"
         >
-
-            <span class="nav-icon">
-                ↘
-            </span>
-
+            <span class="nav-icon">↘</span>
             Curtailment
-
         </button>
 
 
         <button
             class="nav-item"
             data-target="energySection"
-            type="button"
         >
-
-            <span class="nav-icon">
-                ▥
-            </span>
-
+            <span class="nav-icon">▥</span>
             Energy
-
         </button>
 
     </nav>
 
-
-    <!-- =====================================================
-         SIDEBAR DATA SOURCE
-    ====================================================== -->
 
     <div class="sidebar-bottom">
 
@@ -231,10 +192,6 @@
         </div>
 
 
-        <!-- =================================================
-             SINGLE UPLOAD BUTTON
-        ================================================== -->
-
         <div class="header-actions">
 
             <label
@@ -250,7 +207,6 @@
 
             </label>
 
-
             <input
                 type="file"
                 id="dgrFile"
@@ -265,18 +221,39 @@
 
 
     <!-- =====================================================
-         FILE INFORMATION
-         Hidden until a DGR is uploaded.
+         UPLOAD PANEL
     ====================================================== -->
 
-    <section
-        id="fileUploadStatus"
-        class="upload-panel"
-    >
+    <section class="upload-panel">
 
-        <!-- =================================================
-             FILE INFO
-        ================================================== -->
+        <div
+            id="dropZone"
+            class="drop-zone"
+        >
+
+            <div class="upload-circle">
+                ↑
+            </div>
+
+            <div>
+
+                <h3>
+                    Upload Daily Generation Report
+                </h3>
+
+                <p>
+                    Drag and drop your Excel DGR here, or click
+                    to select a file.
+                </p>
+
+                <span>
+                    .xlsx / .xls / .csv
+                </span>
+
+            </div>
+
+        </div>
+
 
         <div
             id="fileInfo"
@@ -307,17 +284,12 @@
             <button
                 id="removeFile"
                 class="remove-button"
-                type="button"
             >
                 Remove
             </button>
 
         </div>
 
-
-        <!-- =================================================
-             WORKBOOK STATUS
-        ================================================== -->
 
         <div
             id="workbookStatus"
@@ -363,6 +335,7 @@
 
             </div>
 
+
             <div class="data-badge">
                 DGR LIVE DATA
             </div>
@@ -370,14 +343,10 @@
         </div>
 
 
-        <!-- =================================================
-             KPI CARDS
-        ================================================== -->
+        <!-- KPI CARDS -->
 
         <div class="kpi-grid">
 
-
-            <!-- PA -->
 
             <div class="kpi-card">
 
@@ -404,8 +373,6 @@
             </div>
 
 
-            <!-- PR -->
-
             <div class="kpi-card">
 
                 <div class="kpi-top">
@@ -431,8 +398,6 @@
             </div>
 
 
-            <!-- SYSTEM LOSSES -->
-
             <div class="kpi-card">
 
                 <div class="kpi-top">
@@ -457,8 +422,6 @@
 
             </div>
 
-
-            <!-- OPERATING HOURS -->
 
             <div class="kpi-card">
 
@@ -487,15 +450,10 @@
         </div>
 
 
-
-        <!-- =================================================
-             DASHBOARD CHARTS
-        ================================================== -->
+        <!-- DASHBOARD CHART PREVIEW -->
 
         <div class="dashboard-chart-grid">
 
-
-            <!-- DASHBOARD PR -->
 
             <div class="chart-card">
 
@@ -519,19 +477,14 @@
 
                 </div>
 
-
                 <div class="chart-container">
 
-                    <canvas
-                        id="dashboardPRChart">
-                    </canvas>
+                    <canvas id="dashboardPRChart"></canvas>
 
                 </div>
 
             </div>
 
-
-            <!-- DASHBOARD SYSTEM LOSS -->
 
             <div class="chart-card">
 
@@ -555,16 +508,14 @@
 
                 </div>
 
-
                 <div class="chart-container">
 
-                    <canvas
-                        id="dashboardLossChart">
-                    </canvas>
+                    <canvas id="dashboardLossChart"></canvas>
 
                 </div>
 
             </div>
+
 
         </div>
 
@@ -618,8 +569,8 @@
                     </h3>
 
                     <span>
-                        Hover over a breakdown to view
-                        start, end and duration.
+                        Hover over a breakdown to view start,
+                        end and duration.
                     </span>
 
                 </div>
@@ -633,8 +584,7 @@
 
             <div class="timeline-wrapper">
 
-                <canvas id="paChart">
-                </canvas>
+                <canvas id="paChart"></canvas>
 
             </div>
 
@@ -701,11 +651,9 @@
 
                 </div>
 
-
                 <div class="chart-container">
 
-                    <canvas id="prChart">
-                    </canvas>
+                    <canvas id="prChart"></canvas>
 
                 </div>
 
@@ -736,11 +684,9 @@
 
                 </div>
 
-
                 <div class="chart-container">
 
-                    <canvas id="hoursChart">
-                    </canvas>
+                    <canvas id="hoursChart"></canvas>
 
                 </div>
 
@@ -771,11 +717,9 @@
 
                 </div>
 
-
                 <div class="chart-container">
 
-                    <canvas id="lossChart">
-                    </canvas>
+                    <canvas id="lossChart"></canvas>
 
                 </div>
 
@@ -847,8 +791,7 @@
 
             <div class="large-chart-container">
 
-                <canvas id="curtailmentChart">
-                </canvas>
+                <canvas id="curtailmentChart"></canvas>
 
             </div>
 
@@ -880,8 +823,8 @@
                 </h2>
 
                 <p>
-                    Budgeted Energy from E10:E21 and
-                    Measured Energy from F10:F21.
+                    Budgeted Energy from E10:E21 and Measured
+                    Energy from F10:F21.
                 </p>
 
             </div>
@@ -893,9 +836,7 @@
         </div>
 
 
-        <!-- =================================================
-             ENERGY SUMMARY
-        ================================================== -->
+        <!-- ENERGY SUMMARY -->
 
         <div class="energy-summary">
 
@@ -938,12 +879,11 @@
 
             </div>
 
+
         </div>
 
 
-        <!-- =================================================
-             ENERGY CHART
-        ================================================== -->
+        <!-- ENERGY CHART -->
 
         <div class="chart-card full-card">
 
@@ -970,8 +910,7 @@
 
             <div class="large-chart-container">
 
-                <canvas id="energyChart">
-                </canvas>
+                <canvas id="energyChart"></canvas>
 
             </div>
 
@@ -983,10 +922,6 @@
 
     <!-- =====================================================
          EMPTY STATE
-         
-         NOTE:
-         There is intentionally NO second upload button here.
-         The only upload control is the top-right button.
     ====================================================== -->
 
     <div
@@ -1003,12 +938,17 @@
         </h2>
 
         <p>
-            Use the Upload DGR button above to load your
-            Daily Generation Report. The dashboard will
-            automatically analyse only Dashboard,
-            Annual_KPI, Daily_KPI, PA and
+            The dashboard will automatically analyse only
+            Dashboard, Annual_KPI, Daily_KPI, PA and
             Curtailment records.
         </p>
+
+        <label
+            for="dgrFile"
+            class="empty-upload-button"
+        >
+            Upload DGR
+        </label>
 
     </div>
 
