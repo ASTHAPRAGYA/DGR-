@@ -1474,7 +1474,6 @@ function removeDynamicElements() {
 /* =========================================================
    MAKE SCROLLABLE CANVAS
 ========================================================= */
-
 function prepareScrollableCanvas(
     canvas,
     width
@@ -1494,6 +1493,10 @@ function prepareScrollableCanvas(
     }
 
 
+    /*
+       Create the scrolling viewport.
+    */
+
     let wrapper =
         parent.querySelector(
             ".scroll-chart-container"
@@ -1512,26 +1515,6 @@ function prepareScrollableCanvas(
             "scroll-chart-container";
 
 
-        wrapper.style.width =
-            "100%";
-
-
-        wrapper.style.overflowX =
-            "auto";
-
-
-        wrapper.style.overflowY =
-            "hidden";
-
-
-        wrapper.style.position =
-            "relative";
-
-
-        wrapper.style.scrollbarWidth =
-            "thin";
-
-
         parent.insertBefore(
             wrapper,
             canvas
@@ -1545,12 +1528,59 @@ function prepareScrollableCanvas(
     }
 
 
+    /*
+       The wrapper occupies exactly the
+       available chart-card space.
+    */
+
+    wrapper.style.width =
+        "100%";
+
+    wrapper.style.height =
+        "100%";
+
+    wrapper.style.overflowX =
+        "auto";
+
+    wrapper.style.overflowY =
+        "hidden";
+
+    wrapper.style.position =
+        "relative";
+
+    wrapper.style.boxSizing =
+        "border-box";
+
+
+    /*
+       Wide internal canvas.
+
+       This is what creates the horizontal
+       scrolling area.
+    */
+
+    const finalWidth =
+        Math.max(
+            width || 800,
+            parent.clientWidth || 800
+        );
+
+
+    canvas.classList.add(
+        "scroll-chart-canvas"
+    );
+
+
     canvas.style.display =
         "block";
 
 
     canvas.style.width =
-        `${width}px`;
+        `${finalWidth}px`;
+
+
+    canvas.style.minWidth =
+        `${finalWidth}px`;
 
 
     canvas.style.maxWidth =
@@ -1561,11 +1591,23 @@ function prepareScrollableCanvas(
         "100%";
 
 
+    /*
+       Prevent Chart.js from forcing the
+       canvas back to the card width.
+    */
+
+    canvas.removeAttribute(
+        "width"
+    );
+
+    canvas.removeAttribute(
+        "height"
+    );
+
+
     return wrapper;
 
 }
-
-
 /* =========================================================
    CREATE PA PERCENTAGE CARD
 ========================================================= */
