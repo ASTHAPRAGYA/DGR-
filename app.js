@@ -1495,7 +1495,35 @@ function setStatus(
 
 }
 
+/* =========================================================
+   DESTROY SINGLE CHART
+========================================================= */
 
+function destroyChart(id) {
+
+    if (
+        charts[id] &&
+        typeof charts[id].destroy === "function"
+    ) {
+
+        try {
+
+            charts[id].destroy();
+
+        } catch (error) {
+
+            console.warn(
+                `Could not destroy chart: ${id}`,
+                error
+            );
+
+        }
+
+    }
+
+    charts[id] = null;
+
+}
 /* =========================================================
    SHOW / HIDE
 ========================================================= */
